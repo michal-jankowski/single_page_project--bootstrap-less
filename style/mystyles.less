@@ -1,0 +1,747 @@
+* {
+	box-sizing: border-box; // wykluczamy marginesy z obliczeń rozmiarów elementów, marginesy nie będą wpływały ani na szerokość ani na wysokość żadnego elementu
+}
+
+// SIATKA KOLUMN
+@column-width: 65;
+@gutter-width: 30;
+@total-width: 100%;
+
+.our-services .single-col {
+	.column(12); // styl dla urządzeń najmniejszych, chociaż nie jest to potrzebne, ponieważ domyślnie div i tak zajmuje 100% szerokości
+	@media @tablet {
+		.column(3);
+	}
+}
+
+.advantages .single-col {
+	.column(12);
+	@media @tablet {
+		.column(4);
+	}
+}
+
+.statistics .single-col {
+	.column(12);
+	@media @phone {
+		.column(6);
+	}
+	@media @tablet {
+			.column(3);
+	}
+}
+
+.our-team .single-col {
+	.column(12);
+	@media @tablet {
+		.column(4);
+	}
+}
+
+.footer-main .single-col {
+	.column(12);
+	@media @phone {
+		.column(6);
+	}
+	@media @tablet {
+			.column(3);
+	}
+}
+
+// KLASA '.CONTAINER'
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	clear: both; // dotyczy głównie elementów pływających
+	padding: 0 15px; // 15px padding podobnie jak Bootstrap
+}
+
+// INNE ELEMENTY GLOBALNYCH STYLÓW
+img {
+	max-width: 100%; // zdjęcia będą się teraz prawidłowo skalowały
+	vertical-align: middle; // duże znaczenie dla zlikwidowania pewnych odstępów w pionie
+}
+
+// GLOBALNE STYLE DLA ODNOŚNIKÓW
+a {
+	text-decoration: none;
+}
+
+// TYTUŁY SEKCJI
+.section-title {
+	margin-bottom: 40px;
+	.center-text;
+}
+
+
+/*****************************
+MAIN CONTAINER
+******************************/
+#main-container { // odsuwamy zawartość od góry viewportu, ponieważ w przeciwnym wypadku górna część naszego slajdera będzie się znajdować pod nagłówkiem strony (element header ma pozycjonowanie fixed)
+	padding-top: 53px;
+}
+
+/*****************************
+NAGŁÓWEK
+******************************/
+header {
+	position: fixed; // menu przyklejone do górnej krawędzi
+	z-index: 999;
+	top: 0; // gdzie będzie przyczepiony
+	left: 0;
+	right: 0;
+	background: @basic-background;
+	.section-border-bottom;
+	box-shadow: 0 0 1px @basic-border-color;
+	.navbar {
+		height: 63px;
+		.nav-logo {
+			.float-left;
+			.center-vertical; // łatwe wyśrodkowanie elementów w pionie
+			// z-index: 99; // jak ustawiliśmy 'z-index' dla całego elementu header, to nie musimy już ustawiać go dla elementu (loga) z klasą '.nav-logo'
+			z-index: 99; // musieliśmy 'z-index' ustawić jednak w późniejszym etapie, ponieważ inaczej logo nie byłoby widoczne przy wyświetlaniu się menu mobilnego
+		}
+	}
+}
+
+.main-menu-content {
+	.float-right;
+	.center-vertical;
+	ul {
+		.list-style-none;
+		li {
+			.float-left;
+			.block;
+			a {
+				color: @menu-link-color;
+				font-size: 15px; // rozmiar powinien być podawany raczej w jednostkach 'em'
+				font-family: @font-family-secondary;
+				font-weight: 400; // 400 to jest domyślna wartość
+				padding: 20px 14px; // ten padding przeznaczony jest dla mniejszych urządzeń
+				line-height: 20px;
+				.basic-transition;
+				&:hover {
+					color: @accent-color;
+				}
+				@media @tablet {
+					padding: 20px 22px;
+				}
+			}
+			i {
+				font-size: 14px;
+			}
+		}
+	}
+}
+
+// Ukrywamy, odkrywamy menu główne
+#main-menu {
+	.invisible; // domyślnie dla małych urządzeń niewidoczne
+	@media @phone {
+		.block;
+		.clearfix;
+	}
+}
+
+/*****************************
+MENU MOBILNE
+******************************/
+// Ukrywamy, odkrywamy menu mobilne
+.slicknav_menu {
+	position: fixed;
+	left: 0;
+	right: 0;
+	// top: 0; // ta właściwość nie jest potrzebna, żeby menu mobilne było przyczepione do góry strony, wystarczy sama właściwość 'position: fixed'
+	@media @phone {
+		.invisible;
+	}
+	i {
+		.invisible; // wszystkie ikony mają być ukryte
+	}
+	ul {
+		.section-border-bottom;
+		box-shadow: 0 0 1px @basic-border-color;
+	}
+}
+
+/*****************************
+GŁÓWNY SLIDER
+******************************/
+.bxslider {
+	.main-slide-1 {
+		background-image: url('../img/slider_1.jpg');
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: 0 0; // pozycja tła - wszystko zerujemy
+		// na obrazki w tle nałożyliśmy nakładkę, żeby je przyciemnić, żeby nie odwracały uwagi od treści
+		&:after {
+			.dark-overlay;
+		}
+	}
+	.main-slide-2 {
+		background-image: url('../img/slider_2.jpg');
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: 0 0; // pozycja tła - wszystko zerujemy
+		// na obrazki w tle nałożyliśmy nakładkę, żeby je przyciemnić, żeby nie odwracały uwagi od treści
+		&:after {
+			.dark-overlay;
+		}
+	}
+}
+
+// Obrazki w sliderze
+.bx-viewport { // klasa nie znajdująca się bezpośrednio w html, ale narzucana przez przez skrypt, klasa '.bx-viewport' (viewport, to widoczny obszar slidera)
+	img {
+		.invisible; // ukrywamy zdjęcia dla mniejszych rozdzielczości
+		@media @tablet {
+			.block;
+			position: absolute;
+			right: 10%; // odsunięcie od prawej krawędzi kontenera
+			top: 20%; // odsunięcie od górnej krawędzi kontenera
+		}
+	}
+}
+
+// Zawartość slajdu
+.main-slider-content {
+	padding: 15% 2%; // nie do końca wiem od jakiej wartości liczony jest ten padding: 15% ale z czego 15%...?, wygląda tak jakby od 15% całej wysokości viewportu...
+	// HAHAHA WIEM DLACZEGO TAK JEST: zapomniałem o tym, że 'margin/padding percentages in CSS is always calculated against width' rodzica - a rodzic kontenera '.main-slider-content' to div z klasą '.container', którego zawartość ma szerokość 1170px, a 15% * 1170 px to dokładnie 175.5px czyli tyle, ile wynosi padding elementu '.main-slider-content'! ;)
+	color: @brightest-text-color;
+	position: relative;
+	z-index: 1;
+	h1 {
+		font-size: 30px;
+		line-height: 33px;
+		font-weight: 400; // bazowa waga tekstu
+		@media @tablet {
+			font-size: 48px;
+			line-height: 60px;
+		}
+	}
+	p {
+		font-size: 14px;
+		line-height: @basic-line-height;
+		@media @tablet {
+			font-size: 18px;
+		}
+	}
+	a {
+		position: relative;
+		.basic-button(@brightest-text-color; none);
+		margin: 8px 0;
+		padding: 12px 30px;
+		border: 1px solid @brightest-text-color;
+	}
+}
+
+/*****************************
+SEKCJA NASZE USŁUGI
+******************************/
+.our-services {
+	padding: 60px 0;
+	.overflow-fix; // ponieważ ten kontener zawiera elementy pływające, to powinno rozwiązać ten problem i nadać temu kontenerowi wysokość
+	.single-col {
+		margin-bottom: 30px;
+		.center-text;
+		@media @tablet {
+			margin-bottom: 0;
+		}
+		span {
+			.inline-block;
+			.size(90px; 90px);
+			background: @alternate-background;
+			.center-text;
+			.border-radius-single(50%); // bo chcemy uzyskać koło, 50% zaokrąglenia szerokości i wysokości
+			margin-bottom: 30px;
+			.basic-transition;
+			&:hover { // zmienia się kolor tła na całym elemencie span i efekt hover też jest wywoływany na całej powierzchni elementu span
+				background: @accent-color;
+				cursor: pointer;
+			}
+			&:hover > i { // CZYLI TEN HOVER BĘDZIE WYWOŁYWANY NA ELEMENCIE SPAN, ALE BĘDZIE DZIAŁAŁ NA ELEMENT I!
+				color: @brightest-text-color;
+			}
+			i {
+				.basic-transition;
+				color: @accent-color;
+				font-size: 30px;
+				line-height: 90px; // wysokość linii taka sama jak wysokość elementu - sposób na środkowanie tekstu przy krótkim, jednoliniowym tekście
+			}
+		}
+	}
+}
+
+/*****************************
+SEKCJA NASZE PORTFOLIO
+******************************/
+.portfolio {
+	padding: 30px 0 60px;
+	.section-border-top;
+	.owl-controls {
+		margin-top: 30px;
+	}
+}
+
+.portfolio-item {
+	font-family: @font-family-secondary;
+	width: 100%; // każdy element musi być rozciągnięty na 100%
+	img { // i dodatkowo każdy obrazek w pojedyńczym elemencie musi być rozciągnięty na 100%, bez tego nie osiągniemy odpowiedniego efektu
+		width: 100%;
+		cursor: move; // kursor charakterystyczny dla elementów, które można przesuwać
+	}
+	// Efekt hover wywołujemy na elemencie '.portfolio-item' (divie otaczającym jeden slajd, w dowolnym elemencie slajdu), ale tak naprawdę będzie on wpływał na element znajdujący się w środku, czyli na diva '.portfolio-hover'
+	&:hover .portfolio-hover {
+		opacity: 1;
+	}
+	// efekt hover znowu wywoływany na dowolnym elemencie slajdu, ale wpływający na elementy umieszczone w środku: nagłówek, paragraf i ikony
+	&:hover h3 {
+		.translate3d(0%; 0%; 0%);
+	}
+	&:hover p {
+		.translate3d(0%; 0%; 0%);
+	}
+	&:hover a {
+		.translate3d(0%; 0%; 0%);
+	}
+}
+
+.portfolio-hover {
+	.absolute-one-hundred-size; // pozwoli rozciągnąć całość na 100% w pionie i poziomie i jednocześnie wypozycjonuje w sposób absolutny
+	.center-text;
+	.basic-transition;
+	// overflow: hidden; // bo w tym elemencie, będzie się znajdował div '.portfolio-hover-inner', z zawartością wypozycjonowaną absolutnie. Użyłem jednak dla elementu '.portfolio-hover-inner' pozycjonowania relatywnego, inaczej niż w kursie, ale tak też działa, nic nie powinno się rozjechać i w ten sposób będzie mniej kodu
+	background-color: @box-portfolio-background;
+	opacity: 0; // domyślne krycie ma znaczenie dla efektu hover
+}
+
+.portfolio-hover-inner {
+	.center-vertical;
+	width: 100%;
+	h3 {
+		.header-mixin(22px; 6px; @brightest-text-color);
+		// musimy w początkowym stanie przesunąć nagłówek do góry, w stanie hover ma on zjeżdżać z góry na dół; będziemy musieli tutaj wykonać translację w osi Y
+		.translate3d(0%; -400%; 0%); // wszędzie musimy podać jednostki, nawet jeśli jest 0, bez jednostek nie zadziała; -400% oznacza, że nagłówek zostanie przesunięty do góry o 4 swoje wysokości
+		.variable-transition(0.6s); // dłuższe przejście niż standardowe
+	}
+	p {
+		color: @brightest-text-color;
+		margin-bottom: 20px;
+		.translate3d(0%; -400%; 0%); // taka sama animacja - ruch z góry na dół
+		.variable-transition(0.6s);
+	}
+	a {
+		.inline-block;
+		.size(40px; 40px); // okrąg o średnicy 40px: muszę rozpocząć od kwadratu, który zostanie prawidłowo sformatowany za pomocą zaokrąglenia narożników
+		.border-radius-single(50%);
+		border: 1px solid @brightest-text-color;
+		.center-text;
+		margin: 0 5px;
+		.translate3d(0%; 400%; 0%); // ruch z dołu na górę
+		// .basic-transition; // standardowa długość, potem i tak będziemy róznicować długość przejścia dla każdego przycisku z osobna. Hmmmm to po co w ogóle definiować teraz to przejście '.basic-transition'...?
+		// Dodają animacje w kursie, ponieważ chodzi tutaj o efekt hover już na samych odnośnikach, a nie na całym elemencie '.portfolio-item', ale to i tak nie musimy dodawać żadnych dodatkowych przejść i animacji, ponieważ są one dziedziczone z elementu '.portfolio-hover'!
+		i {
+			line-height: 40px; // środkowanie <i> w elemencie <a>
+			font-size: 14px;
+			color: @brightest-text-color;
+			// .basic-transition; // tutaj też dodatkowa animacja nie jest potrzebna, ponieważ i tak animujemy elementy <a> otaczające elementy <i>
+			// Dodają animacje w kursie, ponieważ chodzi tutaj o efekt hover już na samych ikonach, a nie na całym elemencie '.portfolio-item', ale to i tak nie musimy dodawać żadnych dodatkowych przejść i animacji, ponieważ są one dziedziczone z elementu '.portfolio-hover'!
+		}
+		// bo jest jeszcze dodatkowy efekt hover, wywoływany na odnośnikach i działający jeszcze dodatkowo na ikony w środku tych odnośników
+		&:hover {
+			background-color: @basic-background;
+		}
+		&:hover i {
+			color: @accent-color;
+		}
+	}
+	// różnicujemy efekt długości przejścia dla elementów z różnymi klasami
+	a.portfolio-link-left {
+		.variable-transition(0.4s);
+	}
+	a.portfolio-link-right {
+		.variable-transition(0.6s);
+	}
+}
+
+/*****************************
+SEKCJA CONTENT
+******************************/
+.content-offer {
+	padding: 30px 0 0;
+	.section-border-top;
+	// .center-text; // nie jest to już tutaj potrzebne, ponieważ zawartość diva '.content-offer' jest umieszczona w divie '.section-title', a div ten ma już przypisaną właściwość center-text
+	.section-title {
+		margin-bottom: 10px;
+	}
+}
+
+/*****************************
+SEKCJA VIDEO
+******************************/
+.section-video {
+	// film ładowany w tle z YouTube za pomocą pluginu, ale na urządzeniach mobilnych ten plugin i tak nie będzie działał prawidłowo, więc nie ma sensu w ogóle tej sekcji wyświetlać na mniejszych urządzeniach. Można jednak zamiast tego załadować jakiś statyczny obrazek w tym miejscu i sekcję zostawić, inaczej będzie dostępna tylko na desktopach
+	.invisible;
+	position: relative; // pomimo tego że nie jest on widoczny...? hmmm... ciekawe, ale na razie to zostawię
+
+	// na paddingach będzie się opierała cała wysokość elementu video
+	.container {
+		padding: 175px 0; // używamy pikseli, ponieważ i tak ta sekcja będzie dostępna tylko dekstopach, nie zależy nam tutaj na responsywność
+		z-index: 2; // nasz kontener musi się znajdować nad elementami w tle
+	}
+	@media @desktop {
+		.block;
+	}
+}
+
+#movie {
+	.size(100%; 100%); // dlaczego 100%, przecież to jest pusty div i nie ma nic w sobie, w ten sposób jego wysokość i tak wciąż będzie 0px
+	position: absolute; // po dodaniu właściwości 'position: absolute' element ma już wysokość i prawidłowe rozmiary. Rozmiary te definiuje ta domieszka '.size'. Może jest tak dlatego, że po wypozycjonowaniu elementu absolutnie, 'wypływa' on ze swojego rodzica i jakby wpada do elementu '.section-video', który ma rozmiar i jest pozycjonowany relatywnie
+	&:after {
+		.dark-overlay; // ta nakładka '.dark-overlay' ma wysokość przypisaną elementowi obejmującemu całą sekcję (407px), ale sam element '#movie' ciągle ma wysokość 0px. Hmmm... nie wiem dlaczego ten pseudoelement 'after' ma dobrą wysokość...?
+		// Być może dlatego, że ten pesudoelement ma pozycjonowanie absolutne, więc wypływa z konteneru rodzica, znajduje się w elemencie '.section-video' i przyjmuje jego wysokość oraz szerokość. I to może właśnie dlatego element '.section-video' ma pozycjonowanie relatywne!
+	}
+}
+
+.video-line {
+	.center-text;
+	h2 {
+		.header-mixin(48px; 26px; @brightest-text-color);
+		position: relative;
+	}
+	a {
+		position: relative;
+		.basic-button(@brightest-text-color; @accent-color);
+		margin: 8px 0;
+		padding: 12px 30px;
+		.border-radius-single(2px);
+		.basic-transition;
+		&:hover {
+			opacity: 0.7; // taki subtelny efekt hover
+		}
+	}
+}
+
+/*****************************
+PASEK PONIŻEJ VIDEO
+******************************/
+.section-video-text {
+	background-color: @accent-color;
+	padding: 50px 0; // na paddingu będą bazowały rozmiary tego elementu
+	.center-text;
+	h2 {
+		color: @brightest-text-color;
+		margin-bottom: 0;
+		a {
+			.basic-button(@brightest-text-color; @accent-color);
+			margin: 8px 0 8px 65px;
+			padding: 10px 30px;
+			border: 2px solid @brightest-text-color;
+			.border-radius-single(2px);
+			.basic-transition;
+			&:hover {
+				color: @accent-color;
+				background-color: @brightest-text-color;
+			}
+		}
+	}
+}
+
+/*****************************
+SEKCJA NASZE ZALETY
+******************************/
+.advantages {
+	padding: 30px 0 60px;
+	.clearfix; // zawartość całego tego kontenera jest elementem pływającym (tzn. każda kolumna jest elementem pływającym), więc moglibyśmy mieć problemy z prawidłowym ułożeniem zawartości w tej sekcji bez tego '.clearfix', raczej problem z ostylowaniem tego elementu bez wysokości ;) 
+	.single-col {
+		.center-text;
+		margin-bottom: 10px;
+		span {
+			.block;
+			margin-bottom: 10px;
+			i {
+				font-size: 30px;
+				color: @accent-color;
+			}
+			@media @tablet {
+				.inline-block;
+				.no-center-float;
+				margin-top: 10px;
+				margin-bottom: 40px;
+				margin-right: 30px;
+			}
+		}
+		h3 {
+			margin-bottom: 10px;
+		}
+		@media @tablet {
+			text-align: left;
+		}
+	}
+}
+
+/*****************************
+SEKCJA STATYSTYKI
+******************************/
+.statistics {
+	background-color: @alternate-background;
+	.overflow-fix; // bo zawartość podzielona jest na kolumny i te kolumny są elemetami pływającymi, czyli trzeba zastosować element pomocniczy '.overflow-fix', który sprawia że kontener będzie miał odpowiednią wysokość, sprawi że te elementy pływające nie będą wychodzić poza granice kontenera.
+	// Nie wiem tylko kiedy powinniśmy stosować '.overflow-fix' a kiedy '.clearfix', czy w ogóle ma to znaczenie...? W tym konkretnym przypadu efekt końcowy byłby taki sam: kontener 'statistics' będzie miał wysokość, a jeśli nie zastosujmy żadnego z tych rozwiązań wysokość kontenera będzie równa 0
+	padding: 30px 0;
+	.single-col {
+		.center-text;
+		h3 {
+			font-size: 60px;
+			color: @accent-color;
+		}
+		p {
+			font-size: 14px;
+		}
+	}
+}
+
+/*****************************
+SEKCJA PARALAX
+******************************/
+.photo-banner {
+	.center-text;
+	background: url('../img/foto_baner.jpg') fixed 0 0; // musimy dodać bardzo istotny, z punktu widzenia efektu paralax, parametr 'fixed': tło zostanie przyczepione do określonego punktu; współrzędne 0,0: punkt zaczepienia znajdzie się w lewym, górnym rogu elementu, który całe to tło obejmuje, elementu do którego to tło zostało podpięte
+	// to zdjęcie będzie ucinane na większości urządzeń, ponieważ ma bardzo duże rozmiary. Należy więc pamiętać, żeby nie było tam żadnych ważnych informacji, ma pełnić głównie rolę dekoracyjną
+	background-position: center; // dzięki temu zdjęcie w tle, niezależnie od rozmiarów urządzenia, zawsze będzie wyśrodkowane i bedziemy widzieć jego środek
+	.photo-banner-inner {
+		position: relative;
+		z-index: 0;
+		&:after {
+			.dark-overlay;
+		}
+		.container {
+			position: relative;
+			z-index: 1; // musi być większy od zera, żeby nie został przykryty nakładką
+			padding: 200px 0; // na paddingu opierają się rozmiary banera photo
+			h2 {
+				.header-mixin(45px; 26px; @brightest-text-color);
+			}
+			a {
+				position: relative;
+				.basic-button(@brightest-text-color; @accent-color);
+				margin: 8px 0;
+				padding: 12px 30px;
+				.border-radius-single(2px);
+				.basic-transition;
+				&:hover {
+					opacity: 0.7;
+				}
+			}
+		}
+	}
+}
+
+/*****************************
+SEKCJA NASZ ZESPÓŁ
+******************************/
+.our-team {
+	padding: 50px 0 60px;
+	.center-text;
+	.section-border-bottom;
+	// .overflow-fix; // nie jest to tutaj potrzebne, ponieważ to pojedyńcze kolumny zawierają elementy pływające, więc to do elementów '.single-col' trzeba dodać mixins '.overflow-fix'
+	.single-col {
+		margin-bottom: 30px;
+	}
+	.team-members {
+		.overflow-fix;
+	}
+}
+
+.team-member {
+	img {
+		margin-bottom: 15px;
+		width: 100%; // obrazki będą wykorzystywały maksymalnie dostępne miejsce. Plik ten (zdjęcie) ma niewielkie rozmiary, więc dla większych rozdzielczości może być niewyraźny
+	}
+	h3 {
+		.header-mixin(18px; 4px);
+	}
+	span {
+		line-height: 24px;
+		margin: 0 0 8px;
+		.inline-block;
+	}
+	p {
+		margin-bottom: 10px;
+	}
+}
+
+.members-social {
+	.list-style-none;
+	li {
+		.inline-block;
+		margin-right: 18px;
+		i {
+			font-size: 22px;
+			color: darken(@alternate-background, 20%);
+			.basic-transition;
+			&:hover {
+				color: darken(@alternate-background, 10%);
+			}
+		}
+	}
+}
+
+/*****************************
+SEKCJA OPINIE KLIENTÓW
+******************************/
+.opinions {
+	padding: 30px 0 60px;
+	ul {
+		padding: 0; // bo listy często mają domyślne paddingi
+	}
+	.section-title {
+		margin-bottom: 20px;
+	}
+}
+
+.opinions-content {
+	.center-text;
+	font-size: 18px;
+	p {
+		line-height: 30px;
+		font-style: italic; // dla fontu 'Open Sans' załadowaliśmy styl 'italic'
+		color: @opinions-text;
+	}
+}
+
+.bx-viewport {
+	min-height: 100px; // bo jeśli tego nie ustawimy, to może nam ucinać trochę tekstu (imię i nazwisko autora opinii), ponieważ nie będzie się on mieścił we viewporcie slajdera
+}
+
+/*****************************
+STOPKA
+******************************/
+// Ogólne style dla stopki
+footer {
+	background-color: @footer-background;
+	color: @bright-text-color;
+	ul {
+		.list-style-none;
+	}
+}
+
+.footer-main {
+	padding: 60px 0;
+	.overflow-fix; // bo będą w stopce kolumny, które będą elementami pływającymi
+	h3 {
+		.header-mixin(18px; 20px; @brightest-text-color);
+	}
+	.single-col {
+		margin-bottom: 30px;
+		@media @tablet {
+			margin-bottom: 0;
+		}
+	}
+}
+
+// Sekcja 'O Nas'
+.footer-social {
+	li {
+		.inline-block;
+		margin-right: 9px;
+		margin-bottom: 3px;
+		a {
+			.inline-block;
+			.size(30px; 30px);
+			border: 1px solid @footer-social-borders;
+			.border-radius-single(2px);
+			.center-text;
+			text-decoration: none;
+			.basic-transition;
+			&:hover {
+				background-color: @footer-social-borders;
+			}
+			i {
+				font-size: 14px;
+				color: @footer-social-icons;
+				line-height: 28px;
+			}
+		}
+	}
+}
+
+// Sekcja 'Nasz blog'
+.our-blog {
+	li {
+		padding-top: 10px;
+		.section-border-top(@footer-social-borders);
+		&:first-child { // pierwszy element li w zestawie wszystkich elementów li
+			padding-top: 0;
+			border-top: none;
+		}
+	}
+	h4 {
+		margin: 0;
+		font-size: 13px;
+		a {
+			color: @bright-text-color;
+			font-weight: 400;
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+}
+
+.post-date {
+	line-height: @basic-line-height;
+	margin: 0 0 6px;
+	color: @footer-post-date;
+	font-size: 12px;
+	.inline-block;
+}
+
+// Sekcja 'Galeria'
+.footer-gallery {
+	li {
+		.inline-block;
+		margin-right: 2px;
+		margin-bottom: 6px;
+		a {
+			.basic-transition;
+			&:hover {
+				opacity: 0.7;
+			}
+		}
+	}
+}
+
+// Sekcja 'Linki'
+.more-links {
+	li {
+		.block;
+		padding-top: 15px;
+		padding-bottom: 15px;
+		.section-border-bottom(@footer-social-borders);
+		&:last-child { // ostatni element li w naszym zestawie
+			border-bottom: none;
+		}
+	}
+	a {
+		color: @bright-text-color;
+		line-height: @basic-line-height;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+// Copyright - dolna część stopki
+.copyright {
+	padding: 20px 0;
+	background-color: @footer-copyright-background;
+	.section-border-top(@footer-social-borders);
+	p {
+		font-size: 12px;
+		color: @basic-text-color;
+		margin: 0;
+		a {
+			color: @bright-text-color;
+		}
+	}
+}
