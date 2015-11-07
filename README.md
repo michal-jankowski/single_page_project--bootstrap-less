@@ -1,2 +1,2 @@
-# single_page_project--less
-Single Page Website Project using the LESS CSS Preprocessor.
+# single_page_project--bootstrap-less
+Single Page Website Project using Twitter Bootstrap framework and LESS CSS Preprocessor.
